@@ -1,0 +1,61 @@
+body
+{
+    font-family:'helvetica neue';
+    font-weight:200 !important;
+}
+.describe
+{
+    color : #2ba6cb;
+    font-weight:200 !important;
+}
+#editor_holder
+{
+    margin-top: 5% !important;
+}
+
+.editor_wrapper
+{
+    margin-top: 5% !important;
+}
+
+#edit
+{
+    width: 100%;
+    margin-top:20px;
+}
+.heading
+{
+    padding-top:0% !important;
+}
+.top-bar
+{
+    background:white !important;
+}
+.top-bar *
+{
+    font-family:'helvetica neue' !important;
+    font-weight:200 !important;
+    color : #2ba6cb !important;
+    border-bottom:3px inset #c7c2c2;
+}
+.navbar-center
+{
+    margin-left:40% !important;
+}
+#scroll
+{
+    background-color:#2ba6cb;
+    border-color:#279abc;
+    font-family:'helvetica neue' !important;
+    font-weight:200 !important;
+}
+.highlight
+{
+    border : 1px dashed grey;
+}
+.visual_editor
+{
+width:20%;
+height:100%;
+overflow:scroll;
+}
