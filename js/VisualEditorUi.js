@@ -33,6 +33,48 @@ var VisualEditorUI = function(iframe,iframe_wrapper)
     this.border_width = $('<input type="text" placeholder="boder-width">');
     this.border_color = $('<input type="text" placeholder="border-color">');
     this.border_type = $('<input type="text" placeholder="border-type">'); 
+    this.font_wrapper = $('<div></div>');
+    this.font_color = $('<input type="text" placeholder="font-color">');
+    this.font_size = $('<input type="text" placeholder="font-size">');
+    this.font_weight = $('<select name="font-weight"></select>');
+    this.font_weight_normal = $('<option value="normal">Normal</option>');
+    this.font_weight_bold = $('<option value="bold">Bold</option>');
+    this.font_weight_bolder = $('<option value="bolder">Bolder</option>');
+    this.font_weight_lighter = $('<option value="lighter">Lighter</option>');
+    this.position_wrapper = $('<div></div>');
+    this.position_select = $('<select name="position"></select>');
+    this.position_static = $('<option value="static">Static</option>');
+    this.position_absolute = $('<option value="absolute">Absolute</option>');
+    this.position_fixed = $('<option value="fixed">Fixed</option>');
+    this.position_relative = $('<option value="relative">relative</option>');
+    this.zIndex_wrapper = $('<div></div>');
+    this.zIndex_input = $('<input type="text" placeholder="z-Index">');
+    this.cursor_wrapper = $('<div></div>');
+    this.cursor_select = $('<select name="position"></select>');
+    this.cursor_default = $('<option value="default">Default</option>');
+    this.cursor_crosshair = $('<option value="crosshair">Crosshair</option>');
+    this.cursor_help = $('<option value="help">Help</option>');
+    this.cursor_move = $('<option value="move">Move</option>');
+    this.cursor_pointer = $('<option value="pointer">Pointer</option>');
+    this.cursor_text = $('<option value="text">Text</option>');
+    this.opacity_wrapper = $('<div></div>');
+    this.opacity_input = $('<input type="text" placeholder="opacity">');
+    this.overflow_select = $('<select name="overflow"></select>');
+    this.overflow_wrapper = $('<div></div>');
+    this.overflow_visible = $('<option value="visible">Visible</option>');
+    this.overflow_hidden = $('<option value="hidden">Hidden</option>');
+    this.overflow_scroll = $('<option value="scroll">Scroll</option>');
+    this.overflow_auto = $('<option value="auto">Auto</option>');
+    this.height_width_wrapper = $('<div></div>');
+    this.height_input = $('<input type="text" placeholder="height">');
+    this.width_input = $('<input type="text" placeholder="width">');
+    this.display_select = $('<select name="display"></select>');
+    this.display_wrapper = $('<div></div>');
+    this.display_inline = $('<option value="inline">Inline</option>');
+    this.display_block = $('<option value="block">Block</option>');
+    this.display_none = $('<option value="none">None</option>');
+    this.line_height = $('<input type="text" placeholder = "line-height">');
+    this.line_height_wrapper = $('<div></div>');
     this.class_wrapper = $('<div></div>');
     this.style = {};
     this.class_input = $('<input type="text" placeholder="class name">'); 
@@ -151,6 +193,15 @@ VisualEditorUI.prototype = {
         this.background_color_option();
         this.border_option();
         this.border_radius_option();
+        this.font_option();
+        this.position_option();
+        this.zIndex_option();
+        this.opacity_option();
+        this.cursor_option();
+        this.overflow_option();
+        this.height_width_option();
+        this.display_option();
+        this.line_height_option();
     },
     important_option : function()
     {
@@ -289,6 +340,196 @@ VisualEditorUI.prototype = {
         this.background_color_wrapper.append($('<label>Background colour</label>'))
         this.background_color_wrapper.append(this.background_color);
         this.editor.append(this.background_color_wrapper);
+    },
+    font_option : function()
+    {   this.font_wrapper.append('<label>font-size</label>');
+        this.font_wrapper.append(this.font_size);
+        this.font_wrapper.append('<label>font-color</label>');
+        this.font_wrapper.append(this.font_color);
+        this.font_wrapper.append('<label>font-weight</label>');
+        this.font_weight.append(this.font_weight_normal); 
+        this.font_weight.append(this.font_weight_bold);
+        this.font_weight.append(this.font_weight_bolder);
+        this.font_weight.append(this.font_weight_lighter);
+        this.font_wrapper.append(this.font_weight);
+        var self = this;
+        this.font_size.keyup(function()
+                             {
+                                    self.style['fontSize'] = $(this).val();
+                                    for(var i = 0;i<self.current_elements.length;i++)
+                                    {
+                                           self.current_elements[i].css(self.style);
+                                    }
+                             });
+        this.font_color.keyup(function()
+                             {
+                                    self.style['color'] = $(this).val();
+                                    for(var i = 0;i<self.current_elements.length;i++)
+                                    {
+                                           self.current_elements[i].css(self.style);
+                                    }
+                             });
+        this.font_weight.change(function()
+                                {
+                                    self.style['fontWeight'] = $(this).val();
+                                    for(var i = 0;i<self.current_elements.length;i++)
+                                    {
+                                           self.current_elements[i].css(self.style);
+                                    }
+                                    
+                                });
+        this.editor.append(this.font_wrapper);
+        
+    },
+    position_option : function(){
+        this.position_wrapper.append('<label>Position</label>');
+        this.position_select.append(this.position_static);
+        this.position_select.append(this.position_relative);
+        this.position_select.append(this.position_fixed);
+        this.position_select.append(this.position_absolute);
+        this.position_wrapper.append(this.position_select);
+        var self = this;
+        this.position_select.change(function()
+                        {
+                            self.style['position'] = $(this).val();
+                            console.log('The position is:'+$(this).val());
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                            
+                        });
+        this.editor.append(this.position_wrapper);
+    },    
+    zIndex_option : function(){
+        this.zIndex_wrapper.append('<label>zIndex</label>');
+        this.zIndex_wrapper.append(this.zIndex_input);
+        var self = this;
+        this.zIndex_input.keyup(function()
+                        {
+                            self.style['z-Index'] = $(this).val();
+                            console.log('The zindex applied and used is: ' + $(this).val());
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                            
+                        });
+        this.editor.append(this.zIndex_wrapper);
+        
+    },
+    opacity_option : function(){
+        this.opacity_wrapper.append('<label>Opacity</label>');
+        this.opacity_wrapper.append(this.opacity_input);
+        var self = this;
+        this.opacity_input.keyup(function()
+                        {
+                            self.style['opacity'] = $(this).val();
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                            
+                        });
+        this.editor.append(this.opacity_wrapper);
+    },
+    line_height_option : function(){
+        this.line_height_wrapper.append('<label>line_height</label>');
+        this.line_height_wrapper.append(this.line_height);
+        var self = this;
+        this.line_height.keyup(function()
+                {
+                    self.style['lineHeight'] = $(this).val();
+                    for(var i = 0;i<self.current_elements.length;i++)
+                    {
+                           self.current_elements[i].css(self.style);
+                    }
+                    
+                });
+        this.editor.append(this.line_height_wrapper);
+        
+    },
+    height_width_option : function(){
+        this.height_width_wrapper.append('<label>Height</label>');
+        this.height_width_wrapper.append(this.height_input);
+        this.height_width_wrapper.append('<label>Width</label>');
+        this.height_width_wrapper.append(this.width_input);
+        var self = this;
+        this.height_input.keyup(function()
+                     {
+                            self.style['height'] = $(this).val();
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                     });
+        this.width_input.keyup(function()
+                     {
+                            self.style['width'] = $(this).val();
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                     });
+        this.editor.append(this.height_width_wrapper);
+        
+    },
+    display_option : function(){
+        this.display_wrapper.append('<label>Display</label>');
+        this.display_select.append(this.display_inline);
+        this.display_select.append(this.display_block);
+        this.display_select.append(this.display_none);
+        this.display_wrapper.append(this.display_select);
+        var self = this;
+        this.display_select.change(function()
+                        {
+                            self.style['display'] = $(this).val();
+                            for(var i = 0;i<self.current_elements.length;i++)
+                            {
+                                   self.current_elements[i].css(self.style);
+                            }
+                        });
+        this.editor.append(this.display_wrapper);
+        
+    },
+    overflow_option : function(){
+        this.overflow_wrapper.append('<label>Overflow</label>');
+        this.overflow_select.append(this.overflow_visible);
+        this.overflow_select.append(this.overflow_hidden);
+        this.overflow_select.append(this.overflow_scroll);
+        this.overflow_select.append(this.overflow_auto);
+        this.overflow_wrapper.append(this.overflow_select);
+        var self = this;
+        this.overflow_select.change(function()
+                                {
+                                    self.style['overflow'] = $(this).val();
+                                    for(var i = 0;i<self.current_elements.length;i++)
+                                    {
+                                           self.current_elements[i].css(self.style);
+                                    }
+                                });
+        this.editor.append(this.overflow_wrapper);
+    },
+    cursor_option : function(){
+        this.cursor_wrapper.append('<label>Cursor</label>');
+        this.cursor_select.append(this.cursor_default);
+        this.cursor_select.append(this.cursor_crosshair);
+        this.cursor_select.append(this.cursor_help);
+        this.cursor_select.append(this.cursor_move);
+        this.cursor_select.append(this.cursor_pointer);
+        this.cursor_select.append(this.cursor_text);
+        this.cursor_wrapper.append(this.cursor_select);
+        var self = this;
+        this.cursor_select.change(function()
+                                {
+                                    self.style['cursor'] = $(this).val();
+                                    console.log('The cursor is:'+$(this).val());
+                                    for(var i = 0;i<self.current_elements.length;i++)
+                                    {
+                                           self.current_elements[i].css(self.style);
+                                    }
+                                });
+        this.editor.append(this.cursor_wrapper);  
     },
     create_views : function()
     {
