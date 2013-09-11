@@ -1,5 +1,6 @@
-var VisualEditorUI = function(iframe)
+var VisualEditorUI = function(iframe,iframe_wrapper)
 {
+    this.iframe_wrapper = iframe_wrapper;
     this.iframe = iframe;
     this.current_elements = [];
     this.class_text = null;
@@ -43,7 +44,7 @@ var VisualEditorUI = function(iframe)
     this.mobile_view = $('<button>mobile</button>');
     this.desktop_view = $('<button>desktop</button>');
     this.editor_attributes = {'width':'20%','height':'100%'};
-    this.editor_styles = {'position':'fixed','right':'0%','top':'0%','overflow':'scroll','color':'white'};
+    this.editor_styles = {'right':'0%','top':'0%','overflow':'scroll','color':'white'};
 }
 VisualEditorUI.prototype = {
     init : function()
@@ -54,6 +55,13 @@ VisualEditorUI.prototype = {
         $('body').append(this.editor);
         this.iframe_events();
         this.create_toolbar();
+        this.iframe_wrapper.resizable(
+            {
+                alsoResize: this.iframe,
+                handles: "e, w" 
+            });
+        this.editor.resizable();
+        return this.editor;
     },
     iframe_events : function()
     {
