@@ -24,7 +24,7 @@ VisualEditor.prototype = {
         $('body').html('');
         $('body').append(this.iframe);
         this.create_wrappers();
-        this.ui = new VisualEditorUI(this.iframe,this.iframe_wrapper);
+        this.ui = new VisualEditorUI(this.iframe,this.iframe_wrapper,this.media_size_options);
         this.editor = this.ui.init();
         this.editor.css({'position':'fixed','left':'80%','background-color':'#b4b4b4','z-index':'100'});
         this.editor.draggable();
@@ -40,8 +40,8 @@ VisualEditor.prototype = {
             var media_new_rule_attributes = {'background-color':'yellow','height':'100%','width':this.iframe.css('width'),'border':'1px solid white'};
             media_new_rule.css(media_new_rule_attributes);
             console.log('the media sizes is ',this.media_size_options);
-            this.media_size_options[this.media_size_options.length-1]['min-width'] = this.iframe.css('width');
-            this.media_size_options[this.media_size_options.length] = {'max-width':this.iframe.css('width'),'min-width':'0px'};
+            this.media_size_options[this.media_size_options.length-1]['min-width'] = this.iframe.width();
+            this.media_size_options[this.media_size_options.length] = {'max-width':this.iframe.width(),'min-width':0};
             console.log('the media sizes is ',this.media_size_options);
             this.media_size.prepend(media_new_rule);
         },this));
@@ -56,8 +56,8 @@ VisualEditor.prototype = {
         this.overall_iframe_wrapper = this.iframe_wrapper.parent();
         this.overall_iframe_wrapper.prepend(this.media_size);
         this.iframe_wrapper.css('display','inline-block');
-        var max = this.iframe.css('width');
-        this.media_size_options[0] = {'max-width': max,'min-width':'0px'};
+        var max = this.iframe.width();
+        this.media_size_options[0] = {'max-width': max,'min-width':0};
         this.add_media_size_option();
     }
 }

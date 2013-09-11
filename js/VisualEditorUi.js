@@ -1,5 +1,6 @@
-var VisualEditorUI = function(iframe,iframe_wrapper)
+var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
 {
+    this.media_size_options = media_size_options;
     this.iframe_wrapper = iframe_wrapper;
     this.iframe = iframe;
     this.current_elements = [];
@@ -171,7 +172,16 @@ VisualEditorUI.prototype = {
     },
     createClassFromStyle : function()
     {
-        var text = '.'+this.class_input.val()+'{';
+        var text = '@media (';
+        for(var i=0;i<this.media_size_options.length;i++)
+        {
+            if((this.iframe.width() <= this.media_size_options[i]['max-width']) && (this.iframe.width() > this.media_size_options[i]['min-width']) )
+            {
+                console.log('I have been attained');
+                text = text +'max-width : '+this.media_size_options[i]['max-width']+'px) and (min-width : '+this.media_size_options[i]['min-width']+'px) {';
+            }
+        }
+        text = text + '.'+this.class_input.val()+'{';
         for (var key in this.style) 
         {
             if (this.style.hasOwnProperty(key))
@@ -180,6 +190,8 @@ VisualEditorUI.prototype = {
                 }
         }
         text = text + '}';
+        text = text + '}';
+        console.log('the value of the media is >>>>>>>>'+text);
         return text;
         
     },
