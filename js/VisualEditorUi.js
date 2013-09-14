@@ -15,51 +15,51 @@ var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
     this.current_elements = [];
     this.class_text = null;
     this.style_script = $('<style></style>');
-    this.wrapper_padding= $('<table></table>');
-    this.padding_left = $('<input></input>');
-    this.padding_right = $('<input></input>');
-    this.padding_top = $('<input></input>');
-    this.padding_bottom = $('<input></input>');
-    this.wrapper_margin= $('<table></table>');
-    this.margin_left = $('<input></input>');
-    this.margin_right = $('<input></input>');
-    this.margin_top = $('<input></input>');
-    this.margin_bottom = $('<input></input>');
-    this.border_radius_wrapper = $('<div></div>');
+    this.wrapper_padding= $('<table class="padding_wrapper"></table>');
+    this.padding_left = $('<input  type="text"></input>');
+    this.padding_right = $('<input  type="text"></input>');
+    this.padding_top = $('<input  type="text" class="move-right"></input>');
+    this.padding_bottom = $('<input  type="text" class="move-right"></input>');
+    this.wrapper_margin= $('<table class="margin_wrapper"></table>');
+    this.margin_left = $('<input  type="text"></input>');
+    this.margin_right = $('<input  type="text"></input>');
+    this.margin_top = $('<input  type="text"  class="move-right"></input>');
+    this.margin_bottom = $('<input  type="text" class="move-right"></input>');
+    this.border_radius_wrapper = $('<div class="border_radius_wrapper"></div>');
     this.border_top_left_radius = $('<input type="radio" name="border-radius" value="border-top-left-radius">');
     this.border_top_right_radius = $('<input type="radio" name="border-radius" value="border-top-right-radius">');  
     this.border_bottom_left_radius = $('<input type="radio" name="border-radius" value="border-bottom-left-radius">');
     this.border_bottom_right_radius = $('<input type="radio" name="border-radius" value="border-bottom-right-radius">');
     this.important_style_check = $('<input type="checkbox">');
-    this.important_style_wrapper = $('<div></div>');
+    this.important_style_wrapper = $('<div class="important_style_wrapper"></div>');
     this.border_all_radius = $('<input type="radio" name="border-radius" value="border-radius">');
-    this.border_radius = $('<input></input>');
-    this.border_wrapper = $('<div></div>');
+    this.border_radius = $('<input  type="text"></input>');
+    this.border_wrapper = $('<div class="border_wrapper"></div>');
+    this.border_width = $('<input type="text" placeholder="width">');
+    this.border_color = $('<input type="text" placeholder="color">');
+    this.border_type = $('<input type="text" placeholder="type">'); 
+    this.font_wrapper = $('<div class="font_wrapper"></div>');
+    this.font_color = $('<input type="text" placeholder="font-color">');
+    this.font_size = $('<input type="text" placeholder="font-size">');
+    this.font_weight = $('<select name="font-weight"></select>');
     this.border_left = $('<input type="radio" name="border" value="border-left">');
     this.border_right = $('<input type="radio" name="border" value="border-right">');  
     this.border_bottom= $('<input type="radio" name="border" value="border-bottom">');
     this.border_top = $('<input type="radio" name="border" value="border-top">');
     this.border_all = $('<input type="radio" name="border" value="border">');
-    this.border_width = $('<input type="text" placeholder="boder-width">');
-    this.border_color = $('<input type="text" placeholder="border-color">');
-    this.border_type = $('<input type="text" placeholder="border-type">'); 
-    this.font_wrapper = $('<div></div>');
-    this.font_color = $('<input type="text" placeholder="font-color">');
-    this.font_size = $('<input type="text" placeholder="font-size">');
-    this.font_weight = $('<select name="font-weight"></select>');
     this.font_weight_normal = $('<option value="normal">Normal</option>');
     this.font_weight_bold = $('<option value="bold">Bold</option>');
     this.font_weight_bolder = $('<option value="bolder">Bolder</option>');
     this.font_weight_lighter = $('<option value="lighter">Lighter</option>');
-    this.position_wrapper = $('<div></div>');
+    this.position_wrapper = $('<div class="position_wrapper"></div>');
     this.position_select = $('<select name="position"></select>');
     this.position_static = $('<option value="static">Static</option>');
     this.position_absolute = $('<option value="absolute">Absolute</option>');
     this.position_fixed = $('<option value="fixed">Fixed</option>');
     this.position_relative = $('<option value="relative">relative</option>');
-    this.zIndex_wrapper = $('<div></div>');
+    this.zIndex_wrapper = $('<div class="zindex_wrapper"></div>');
     this.zIndex_input = $('<input type="text" placeholder="z-Index">');
-    this.cursor_wrapper = $('<div></div>');
+    this.cursor_wrapper = $('<div class="cursor_wrapper"></div>');
     this.cursor_select = $('<select name="position"></select>');
     this.cursor_default = $('<option value="default">Default</option>');
     this.cursor_crosshair = $('<option value="crosshair">Crosshair</option>');
@@ -67,32 +67,33 @@ var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
     this.cursor_move = $('<option value="move">Move</option>');
     this.cursor_pointer = $('<option value="pointer">Pointer</option>');
     this.cursor_text = $('<option value="text">Text</option>');
-    this.opacity_wrapper = $('<div></div>');
+    this.opacity_wrapper = $('<div class="opacity_wrapper"></div>');
     this.opacity_input = $('<input type="text" placeholder="opacity">');
     this.overflow_select = $('<select name="overflow"></select>');
-    this.overflow_wrapper = $('<div></div>');
+    this.overflow_wrapper = $('<div class="overflow_wrapper"></div>');
     this.overflow_visible = $('<option value="visible">Visible</option>');
     this.overflow_hidden = $('<option value="hidden">Hidden</option>');
     this.overflow_scroll = $('<option value="scroll">Scroll</option>');
     this.overflow_auto = $('<option value="auto">Auto</option>');
-    this.height_width_wrapper = $('<div></div>');
+    this.height_width_wrapper = $('<div class="height_width_wrapper"></div>');
     this.height_input = $('<input type="text" placeholder="height">');
     this.width_input = $('<input type="text" placeholder="width">');
     this.display_select = $('<select name="display"></select>');
-    this.display_wrapper = $('<div></div>');
+    this.display_wrapper = $('<div class="display_wrapper"></div>');
     this.display_inline = $('<option value="inline">Inline</option>');
     this.display_block = $('<option value="block">Block</option>');
     this.display_none = $('<option value="none">None</option>');
-    this.line_height = $('<input type="text" placeholder = "line-height">');
-    this.line_height_wrapper = $('<div></div>');
-    this.class_wrapper = $('<div></div>');
+    this.line_height = $('<input type="text" placeholder = "Line Height">');
+    this.line_height_wrapper = $('<div class="line_height_wrapper"></div>');
+    this.class_wrapper = $('<div class="class_wrapper"></div>');
+    this.simple_div_wrapper = $('<div></div>');
     this.style = {};
     this.class_input = $('<input type="text" placeholder="class name">'); 
     this.selector_input = $('<input type="text" placeholder="selector">'); 
     this.apply_style = $('<button>Add Style</button>');
     this.editor = $('<div></div>');
-    this.background_color = $('<input></input>');
-    this.background_color_wrapper = $('<div></div>');
+    this.background_color = $('<input  type="text"></input>');
+    this.background_color_wrapper = $('<div class="background_color_wrapper"></div>');
     this.mobile_view = $('<button>mobile</button>');
     this.desktop_view = $('<button>desktop</button>');
     this.editor_attributes = {'width':'20%','height':'100%'};
@@ -221,6 +222,7 @@ VisualEditorUI.prototype = {
         this.create_margin_option();
         this.background_color_option();
         this.border_option();
+        //this.create_border_option();
         this.border_radius_option();
         this.font_option();
         this.position_option();
@@ -273,23 +275,26 @@ VisualEditorUI.prototype = {
                                   self.removeStyleCurrentElements(self.current_elements);
                                   console.log('I am going to apply style '+text); 
                                });
-        this.class_wrapper.append(this.class_input);  
+        this.class_wrapper.append('<label>Class Name</label>');
+        this.class_wrapper.append(this.class_input);
+        this.class_wrapper.append('<label>Selector Name</label>');  
         this.class_wrapper.append(this.selector_input);
         this.class_wrapper.append(this.apply_style);
         this.editor.append(this.class_wrapper);
     },
     border_option : function()
-    {
+    {   
+        this.border_wrapper.prepend("<label class='border_header'>Border</label>");
         this.border_wrapper.append(this.border_top);
-        this.border_wrapper.append('<label>top-border</label');
+        this.border_wrapper.append('<label>top-border</label><br>');
         this.border_wrapper.append(this.border_right);
-        this.border_wrapper.append('<label>right-border</label>');
+        this.border_wrapper.append('<label>right-border</label><br>');
         this.border_wrapper.append(this.border_left);
-        this.border_wrapper.append('<label>left-border<label>');
+        this.border_wrapper.append('<label>left-border</label><br>');
         this.border_wrapper.append(this.border_bottom);
-        this.border_wrapper.append('<label>bottom-border<label>');
+        this.border_wrapper.append('<label>bottom-border</label><br>');
         this.border_wrapper.append(this.border_all);
-        this.border_wrapper.append('<label>all-border<label>');
+        this.border_wrapper.append('<label>all-border</label><br>');
         var self = this;
         this.border_width.keypress(function()
                                   {
@@ -325,16 +330,17 @@ VisualEditorUI.prototype = {
     },
     border_radius_option : function()
     {
+        this.border_radius_wrapper.append("<label class='header'>Border Radius</label>");
         this.border_radius_wrapper.append(this.border_top_left_radius);
-        this.border_radius_wrapper.append('<label>top-left-border-radius</label');
+        this.border_radius_wrapper.append('<label>top-left-border-radius</label><br>');
         this.border_radius_wrapper.append(this.border_top_right_radius);
-        this.border_radius_wrapper.append('<label>top-right-border-radius</label>');
+        this.border_radius_wrapper.append('<label>top-right-border-radius</label><br>');
         this.border_radius_wrapper.append(this.border_bottom_left_radius);
-        this.border_radius_wrapper.append('<label>bottom-left-border-radius<label>');
+        this.border_radius_wrapper.append('<label>bottom-left-border-radius</label><br>');
         this.border_radius_wrapper.append(this.border_bottom_right_radius);
-        this.border_radius_wrapper.append('<label>bottom-right-border-radius<label>');
+        this.border_radius_wrapper.append('<label>bottom-right-border-radius</label><br>');
         this.border_radius_wrapper.append(this.border_all_radius);
-        this.border_radius_wrapper.append('<label>all-border-radius<label>');
+        this.border_radius_wrapper.append('<label>all-border-radius</label><br>');
         this.border_radius.attr('placeholder','Enter border radius');
         var self = this;
         this.border_radius.keypress(function()
@@ -387,7 +393,7 @@ VisualEditorUI.prototype = {
     },
     background_color_option : function()
     {
-        this.background_color.attr('placeholder','background-color');
+        this.background_color.attr('placeholder','BG Color');
         var self = this;
         this.background_color.keyup(function()
                                    {
@@ -408,11 +414,11 @@ VisualEditorUI.prototype = {
         this.editor.append(this.background_color_wrapper);
     },
     font_option : function()
-    {   this.font_wrapper.append('<label>font-size</label>');
+    {   this.font_wrapper.append('<br /><label>font-size</label>');
         this.font_wrapper.append(this.font_size);
-        this.font_wrapper.append('<label>font-color</label>');
+        this.font_wrapper.append('<br /><label>font-color</label>');
         this.font_wrapper.append(this.font_color);
-        this.font_wrapper.append('<label>font-weight</label>');
+        this.font_wrapper.append('<br /><label>font-weight</label>');
         this.font_weight.append(this.font_weight_normal); 
         this.font_weight.append(this.font_weight_bold);
         this.font_weight.append(this.font_weight_bolder);
@@ -422,6 +428,7 @@ VisualEditorUI.prototype = {
         this.font_size.keyup(function()
                              {
                                     self.style['fontSize'] = $(this).val();
+                                    console.log("The font size is "+$(this).val());
                                     for(var i = 0;i<self.current_elements.length;i++)
                                     {
                                            self.current_elements[i].css(self.style);
@@ -500,7 +507,7 @@ VisualEditorUI.prototype = {
         this.editor.append(this.opacity_wrapper);
     },
     line_height_option : function(){
-        this.line_height_wrapper.append('<label>line_height</label>');
+        this.line_height_wrapper.append('<label>Line Height</label>');
         this.line_height_wrapper.append(this.line_height);
         var self = this;
         this.line_height.keyup(function()
@@ -621,15 +628,17 @@ VisualEditorUI.prototype = {
                 self.current_elements[i].css(self.style);
             }
         });
+        top.prepend($("<td />"));
         top.append(top_element);
         this.wrapper_padding.append(top);
         var center = this.create_common_elements('table-row');
         var center_element_left = this.create_common_elements('table-column');
         center_element_left.append(this.padding_left);
-        this.padding_left.attr('placeholder','padding-left');
-        this.padding_right.attr('placeholder','padding-right');
-        this.padding_top.attr('placeholder','padding-top');
-        this.padding_bottom.attr('placeholder','padding-bottom');
+        this.wrapper_padding.prepend('<label>Padding</label>');
+        this.padding_left.attr('placeholder','Left');
+        this.padding_right.attr('placeholder','Right');
+        this.padding_top.attr('placeholder','Top');
+        this.padding_bottom.attr('placeholder','Bot.');
         this.padding_left.change(function(){
             self.style['padding-left'] = $(this).val();
             for(var i = 0;i<self.current_elements.length;i++)
@@ -647,6 +656,7 @@ VisualEditorUI.prototype = {
             }
         });
         center.append(center_element_left);
+        center.append($("<td />"));
         center.append(center_element_right);
         this.wrapper_padding.append(center);
         var bottom = this.create_common_elements('table-row');
@@ -658,6 +668,7 @@ VisualEditorUI.prototype = {
                 self.current_elements[i].css(self.style);
             }
         });
+        bottom.prepend($("<td />"));
         bottom_element.append(this.padding_bottom);
         bottom.append(bottom_element);
         this.wrapper_padding.append(bottom);
@@ -676,15 +687,17 @@ VisualEditorUI.prototype = {
                 self.current_elements[i].css(self.style);
             }
         });
+        top.prepend($("<td />"));
         top.append(top_element);
         this.wrapper_margin.append(top);
         var center = this.create_common_elements('table-row');
         var center_element_left = this.create_common_elements('table-column');
         center_element_left.append(this.margin_left);
-        this.margin_left.attr('placeholder','margin-left');
-        this.margin_right.attr('placeholder','margin-right');
-        this.margin_top.attr('placeholder','margin-top');
-        this.margin_bottom.attr('placeholder','margin-bottom');
+        this.wrapper_margin.prepend('<label>Margin</label>');
+        this.margin_left.attr('placeholder','Left');
+        this.margin_right.attr('placeholder','Right');
+        this.margin_top.attr('placeholder','Top');
+        this.margin_bottom.attr('placeholder','Bot.');
         this.margin_left.change(function(){
             self.style['margin-left'] = $(this).val();
             for(var i = 0;i<self.current_elements.length;i++)
@@ -702,6 +715,7 @@ VisualEditorUI.prototype = {
             }
         });
         center.append(center_element_left);
+        center.append($("<td />"));
         center.append(center_element_right);
         this.wrapper_margin.append(center);
         var bottom = this.create_common_elements('table-row');
@@ -713,12 +727,13 @@ VisualEditorUI.prototype = {
                 self.current_elements[i].css(self.style);
             }
         });
+        bottom.prepend($("<td />"));
         bottom_element.append(this.margin_bottom);
         bottom.append(bottom_element);
         this.wrapper_margin.append(bottom);
         this.editor.append(this.wrapper_margin);
     },
-    create_common_elements : function(option)   
+     create_common_elements : function(option)   
     {
         if(option == 'table-row')
         {

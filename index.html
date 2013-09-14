@@ -10,9 +10,11 @@
     <script src="js/jquery-migrate.js"></script>   
     <script src="js/jquery-ui.js"></script>
     <link href="css/animate.min.css" rel="stylesheet" >
-    <link href="css/foundation.min.css" rel="stylesheet" >
     <script src="js/foundation/foundation.js"></script>
     <script src="js/foundation/foundation.dropdown.js"></script>
+
+<!--    <link href="css/foundation.min.css" rel="stylesheet" >-->
+
     <script src="js/codemirror.js"></script>
     <link rel="stylesheet" href="css/codemirror.css">
     <script src="js/addon/search/search.js"></script>
@@ -93,4 +95,16 @@
 </body>
 <script src="js/skrollr.min.js"></script>
 <script src="main.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $(".ui-menu-item li").mouseover(function(e){
+            console.log("print!s")
+            $(this).find("ui-state-focus").removeClass("ui-state-focus");
+        });
+    });
+
+    $(".ui-widget-content").hover(function(){
+        console.log("this is the ui widget ui-widget-content");
+    });
+</script>
 </html>

@@ -9,7 +9,7 @@ var VisualEditor = function()
     this.iframe_wrapper_attributes = {'width':'100%','height':'90%','border':'1px solid black'};
     this.iframe_wrapper = $('<div></div>');
     this.overall_iframe_wrapper = $('<div></div>');
-    this.overall_iframe_wrapper_attributes = {'width':'100%','height':'50%','border':'4px solid black','display':'inline-block'};
+    this.overall_iframe_wrapper_attributes = {'width':'100%','height':'50%','border-bottom':'1px solid black','display':'inline-block'};
     this.overall_iframe_wrapper.css(this.overall_iframe_wrapper_attributes);
     this.editor = null;
     this.iframe_wrapper.css(this.iframe_wrapper_attributes);
@@ -26,7 +26,7 @@ VisualEditor.prototype = {
         this.create_wrappers();
         this.ui = new VisualEditorUI(this.iframe,this.iframe_wrapper,this.media_size_options);
         this.editor = this.ui.init();
-        this.editor.css({'position':'fixed','left':'80%','background-color':'#b4b4b4','z-index':'100'});
+        this.editor.css({'position':'fixed','left':'80%','background-color':'#444','z-index':'100'});
         this.editor.draggable();
         this.code_editor = new CodeEditor(this.iframe,this.iframe_wrapper,this.editor,this.menu);
         this.file_panel = new FilePanel(this.editor,this.iframe);
