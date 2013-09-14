@@ -1,5 +1,7 @@
 var VisualEditor = function()
 {
+    this.file_panel = null;
+    this.file_panel_wrapper = null;
     this.menu_wrapper = $('<div></div>');
     this.menu = null;
     this.iframe = $('<iframe></iframe>');
@@ -27,6 +29,9 @@ VisualEditor.prototype = {
         this.editor.css({'position':'fixed','left':'80%','background-color':'#b4b4b4','z-index':'100'});
         this.editor.draggable();
         this.code_editor = new CodeEditor(this.iframe,this.iframe_wrapper,this.editor,this.menu);
+        this.file_panel = new FilePanel(this.editor,this.iframe);
+        this.file_panel_wrapper = this.file_panel.init();
+        this.menu.addFilePanelWrapper(this.file_panel_wrapper);
         this.code_editor.init();
     },
     create_menu : function()

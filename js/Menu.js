@@ -1,5 +1,6 @@
 var Menu = function(menu_wrapper)
 {
+    this.file_panel_wrapper = null;;
     this.editor = null;
     this.menu_wrapper = menu_wrapper;
     this.codemirror = null;
@@ -10,6 +11,7 @@ var Menu = function(menu_wrapper)
     this.themes = ['neat','night','solarized dark']
     this.new_option = $('<li><a>New</a><li>');
     this.show_editor = $('<li><a>Visual Editor</a></li>');
+    this.show_file_panel = $('<li><a>File Panel</a></li>');
     this.new_dropdown = $('<ul></ul>');
     console.log('I am in menu ceater');
 }
@@ -21,9 +23,21 @@ Menu.prototype = {
         this.ApplyThemes();
         this.NewOption();
         this.showEditorOption();
+        this.showFilePanelOption();
         this.menu.menu({
         position: {at: "left bottom"}
         });
+    },
+    addFilePanelWrapper : function(file_panel_wrapper)
+    {
+        this.file_panel_wrapper = file_panel_wrapper;
+    },
+    showFilePanelOption : function()
+    {
+        this.show_file_panel.click($.proxy(function(){
+            this.file_panel_wrapper.toggle();
+        },this));
+        this.menu.append(this.show_file_panel);
     },
     ApplyThemes : function()
     {
