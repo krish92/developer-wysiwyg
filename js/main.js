@@ -9,7 +9,7 @@
 
 var Editor = function(area)
 {
-    this.ui = new EditorUI(area);
+    //this.ui = new EditorUI(area);
     this.visualEditor = new VisualEditor();
     this.options = {air : true,
                     textarea : true,
@@ -85,7 +85,7 @@ Editor.prototype = {
             }
             else
             {
-                this.ui.init(this.options);
+                //this.ui.init(this.options);
             }
             
         },

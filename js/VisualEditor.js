@@ -1,11 +1,13 @@
 var VisualEditor = function()
 {
+    this.menu_wrapper = $('<div></div>');
+    this.menu = null;
     this.iframe = $('<iframe></iframe>');
     this.iframe_attributes = {'width':'100%','height':'100%'};
     this.iframe_wrapper_attributes = {'width':'100%','height':'90%','border':'1px solid black'};
     this.iframe_wrapper = $('<div></div>');
     this.overall_iframe_wrapper = $('<div></div>');
-    this.overall_iframe_wrapper_attributes = {'width':'100%','height':'60%','border':'4px solid black','display':'inline-block'};
+    this.overall_iframe_wrapper_attributes = {'width':'100%','height':'50%','border':'4px solid black','display':'inline-block'};
     this.overall_iframe_wrapper.css(this.overall_iframe_wrapper_attributes);
     this.editor = null;
     this.iframe_wrapper.css(this.iframe_wrapper_attributes);
@@ -18,18 +20,20 @@ var VisualEditor = function()
 VisualEditor.prototype = {
     init : function()
     {
-        var url = document.URL;
-        this.iframe.attr('src',url);
-        this.iframe.attr(this.iframe_attributes);
-        $('body').html('');
-        $('body').append(this.iframe);
+        this.create_menu();
         this.create_wrappers();
         this.ui = new VisualEditorUI(this.iframe,this.iframe_wrapper,this.media_size_options);
         this.editor = this.ui.init();
         this.editor.css({'position':'fixed','left':'80%','background-color':'#b4b4b4','z-index':'100'});
         this.editor.draggable();
-        this.code_editor = new CodeEditor(this.iframe,this.iframe_wrapper,this.editor);
+        this.code_editor = new CodeEditor(this.iframe,this.iframe_wrapper,this.editor,this.menu);
         this.code_editor.init();
+    },
+    create_menu : function()
+    {
+        $('body').html('');
+        $('body').append(this.menu_wrapper);
+        this.menu = new Menu(this.menu_wrapper);
     },
     add_media_size_option : function()
     {
@@ -49,6 +53,10 @@ VisualEditor.prototype = {
     },
     create_wrappers : function()
     {
+        var url = document.URL;
+        this.iframe.attr('src',url);
+        this.iframe.attr(this.iframe_attributes);
+        $('body').append(this.iframe);
         this.iframe.wrap(this.iframe_wrapper);
         this.iframe_wrapper = this.iframe.parent();
         this.iframe_wrapper.wrap(this.overall_iframe_wrapper);

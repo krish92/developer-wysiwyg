@@ -1,5 +1,14 @@
 var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
 {
+    this.animation_wrapper = $('<div></div>');
+    this.animation_timer = $('<div></div>');
+    this.animation_time_input = $('<input type="text" placeholder="animation time">');
+    this.animation_add_animation_time_button = $('<button>ok</button>');
+    this.animation_cancel_animation_time_button = $('<button>cancel</button>');
+    this.animation_ok_button = $('<button>Ok</button>');
+    this.animation_cancel_button = $('<button>Cancel</button>');
+    this.animation_style = {};
+    this.animation_style.time_frame = [];
     this.media_size_options = media_size_options;
     this.iframe_wrapper = iframe_wrapper;
     this.iframe = iframe;
@@ -170,6 +179,13 @@ VisualEditorUI.prototype = {
             current_elements[i].addClass(class_name);
         }        
     },
+    add_class_animation : function()
+    {    
+        for(var i=0;i<this.current_elements.length;i++)
+        {
+            this.current_elements[i].addClass(this.animation_style.classname);
+        }    
+    },
     createClassFromStyle : function()
     {
         var text = '@media (';
@@ -197,9 +213,10 @@ VisualEditorUI.prototype = {
     },
     create_toolbar : function()
     {
-        this.create_views();
+        //this.create_views();
         this.class_input_option();
         this.important_option();
+        //this.animation_option();
         this.create_padding_option();
         this.create_margin_option();
         this.background_color_option();
@@ -249,8 +266,9 @@ VisualEditorUI.prototype = {
                                {  
                                   var text = self.createClassFromStyle();
                                   text = self.style_script.text() + text;
+                                   console.log('style script is '+text);
                                   self.style_script.text(text);
-                                  console.log('the value of thne st is '+self.style_script.parent().tagName);
+                                  console.log('the value of thne st is ',self.style_script);
                                   self.addClassCurrentElements(self.current_elements,self.class_input.val());
                                   self.removeStyleCurrentElements(self.current_elements);
                                   console.log('I am going to apply style '+text); 
@@ -330,6 +348,42 @@ VisualEditorUI.prototype = {
                                   });
         this.border_radius_wrapper.append(this.border_radius);
         this.editor.append(this.border_radius_wrapper);
+    },
+    animation_option : function()
+    {
+        this.animation_timer.slider({
+          range: "max",
+          min: 0,
+          max: 100,
+          value: 1
+        });
+        this.animation_wrapper.append(this.animation_timer);
+        this.animation_wrapper.append(this.animation_time_input);
+        this.animation_ok_button.click($.proxy(function(){
+            if(this.animation_time_input.val() == '')
+            {
+               this.cleanEditor();
+            }
+            else
+            {
+                this.animation_style.classname = this.class_input.val();
+                this.animation_style.time = this.animation_time_input.val();
+                this.add_class_animation();
+                console.log('the value of the css is ',this.animation_style);  
+            }    
+        },this));
+        this.animation_add_animation_time_button.click($.proxy(function()
+                                       {
+                                            var style_object = {};
+                                            style_object.percentage = this.animation_timer.slider('value');
+                                            style_object.style = JSON.parse(JSON.stringify(this.style));
+                                            this.animation_style.time_frame[this.animation_style.time_frame.length] = style_object;  
+                                       },this));
+        this.animation_wrapper.append(this.animation_add_animation_time_button);
+        this.animation_wrapper.append(this.animation_cancel_animation_time_button);
+        this.animation_wrapper.append(this.animation_ok_button);
+        this.animation_wrapper.append(this.animation_cancel_button);
+        this.editor.append(this.animation_wrapper);
     },
     background_color_option : function()
     {
