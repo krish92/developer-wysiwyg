@@ -22,6 +22,7 @@ $(document).ready(function () {
     });
     $('#scroll').click(function()
                        {
+                           console.log('I am about to be clicked');
                             var editor = new Editor(null);
                             editor.init({
                                 air : false,

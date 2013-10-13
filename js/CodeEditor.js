@@ -1,5 +1,7 @@
-var CodeEditor = function(iframe,iframe_wrapper,editor,menu)
+    var CodeEditor = function(iframe,iframe_wrapper,editor,menu,page,holder)
 {
+    this.holder = holder;
+    this.page = page;
     this.menu = menu;
     this.ui_editor = editor;
     this.iframe = iframe;
@@ -7,31 +9,26 @@ var CodeEditor = function(iframe,iframe_wrapper,editor,menu)
     this.myCodeMirror = null;
     this.code_editor_wrapper = $('<div></div>');
     this.code_editor = $('<textarea>');
-    this.code_editor_wrapper_attributes = {'height':'40%','width':'100%'};
+    this.code_editor_wrapper_attributes = {'height':'50%','width':'100%'};
     this.code_editor_wrapper.css(this.code_editor_wrapper_attributes);
 }
 CodeEditor.prototype = {
     init : function()
     {
-        console.log('I am going to hide the editor ');
         this.ui_editor.hide();
         this.create_code_editor();
     },
     iframe_events : function()
     {
-        console.log('I am in iframe events');
         var self = this;
         this.iframe.contents().find('body').find('*').click(function(event)
                                                             {
                                                                 event.stopPropagation();
-                                                                console.log('I have been clicked');
                                                                 var temp = $('<div></div>');
                                                                 var clone = $(this).clone(true,true);
                                                                 clone.removeClass('highlight');
                                                                 temp.append(clone,{line:0,ch:0},true);
-                                                                console.log('the outer html is '+temp.html());
                                                                 var find_results = self.code_editor.getSearchCursor(temp.html());
-                                                                console.log('the result of the find is ',find_results);
                                                             });
     },
     getCharOffsetRelativeTo : function(container, node, offset) {
@@ -40,25 +37,36 @@ CodeEditor.prototype = {
         range.setEnd(node, offset);
         return range.toString().length;
     },
+    getCodeEditor : function()
+    {
+        return this.code_editor;
+    },
+    getCodeEditorWrapper : function()
+    {
+        return this.code_editor_wrapper;
+    },
     create_code_editor : function()
     {
         var self = this;
-        this.iframe.load(function()
-                         {
-                            self.code_editor_wrapper.append(self.code_editor);
-                            $('body').append(self.code_editor_wrapper);
-                            self.code_editor = CodeMirror(function(elt) {
-                              self.code_editor.get(0).parentNode.replaceChild(elt, self.code_editor.get(0));
-                            }, {value: self.iframe.contents().find('body').html(),
-                                lineNumbers: true,
-                                mode: "javascript",
-                                gutters: ["CodeMirror-lint-markers"],
-                                autofocus: true,
-                                lint: true});
-                             self.menu.init(self.code_editor,self.ui_editor);
-                             self.editor_events();
-                             self.iframe_events();
-                         });
+        self.code_editor_wrapper.append(self.code_editor);
+        this.holder.append(self.code_editor_wrapper);
+        self.code_editor = CodeMirror(function(elt) {
+          self.code_editor.get(0).parentNode.replaceChild(elt, self.code_editor.get(0));
+        }, {value: this.page,
+            lineNumbers: true,
+            mode: "htmlmixed",
+            theme: 'monokai',
+            smartIndent: true,
+            gutters: ["CodeMirror-lint-markers"],
+            autofocus: true});
+         self.menu.init(self.code_editor,self.ui_editor);
+         console.log('the number of lines in the editor is '+self.code_editor.lineCount());
+         for(var i=1;i<=self.code_editor.lineCount();i++)
+         {
+             self.code_editor.indentLine({line:i});
+         }
+         self.editor_events();
+//         self.iframe_events();
     },
     editor_events : function()
     {

@@ -1,84 +1,87 @@
-body
-{
+body {
     font-family:'helvetica neue';
     font-weight:200 !important;
 }
-.describe
-{
+.describe {
     color : #2ba6cb;
     font-weight:200 !important;
 }
-#editor_holder
-{
+#editor_holder {
     margin-top: 5% !important;
 }
-
-.editor_wrapper
-{
+.editor_wrapper {
     margin-top: 5% !important;
     color:green;
 }
-
-#edit
-{
+#edit {
     width: 100%;
     margin-top:20px;
 }
-.heading
-{
+.heading {
     padding-top:0% !important;
 }
-.top-bar
-{
+.top-bar {
     background:white !important;
 }
-.top-bar *
-{
+.top-bar * {
     font-family:'helvetica neue' !important;
     font-weight:200 !important;
     color : #2ba6cb !important;
     border-bottom:3px inset #c7c2c2;
 }
-.navbar-center
-{
+.navbar-center {
     margin-left:40% !important;
 }
-#scroll
-{
+#scroll {
     background-color:#2ba6cb;
     border-color:#279abc;
     font-family:'helvetica neue' !important;
     font-weight:200 !important;
 }
-.highlight
-{
+.highlight {
     border : 1px dashed grey;
 }
-.visual_editor
-{
-width:20%;
-height:100%;
-overflow:scroll;
+.visual_editor {
+    width:20%;
+    height:100%;
+    overflow:scroll;
 }
-
-.glow
-{
+.glow {
     background-color:yellow;
 }
-
-.ui-menu { overflow: hidden;}
-.ui-menu .ui-menu { overflow: visible !important; }
-.ui-menu > li { float: left; display: block; width: auto !important; }
-.ui-menu > li { margin: 5px 5px !important; padding: 0 0 !important; }
-.ui-menu > li > a { float: left; display: block; clear: both; overflow: hidden;}
-.ui-menu .ui-menu-icon { margin-top: 0.3em !important;}
-.ui-menu .ui-menu .ui-menu li { float: left; display: block;}
-
-
-.visual_editor{
-   input
-    {
-        color:blue;    
-    }
+.ui-menu {
+    overflow: hidden;
 }
-
+.ui-menu .ui-menu {
+    overflow: visible !important;
+}
+.ui-menu > li {
+    float: left;
+    display: block;
+    width: auto !important;
+}
+.ui-menu > li {
+    margin: 5px 5px !important;
+    padding: 0 0 !important;
+}
+.ui-menu > li > a {
+    float: left;
+    display: block;
+    clear: both;
+    overflow: hidden;
+}
+.ui-menu .ui-menu-icon {
+    margin-top: 0.3em !important;
+}
+.ui-menu .ui-menu .ui-menu li {
+    float: left;
+    display: block;
+}
+.visual_editor input {
+    color:blue;
+}
+.features
+{
+    padding:10px;
+    background-color:rgba(36, 113, 180, 0.59) !important;
+}

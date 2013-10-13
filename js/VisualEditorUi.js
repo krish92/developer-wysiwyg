@@ -1,5 +1,6 @@
 var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
 {
+    this.temp_styles_script = $('#temp_styles_script');
     this.animation_wrapper = $('<div></div>');
     this.animation_timer = $('<div></div>');
     this.animation_time_input = $('<input type="text" placeholder="animation time">');
@@ -98,6 +99,12 @@ var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
     this.desktop_view = $('<button>desktop</button>');
     this.editor_attributes = {'width':'20%','height':'100%'};
     this.editor_styles = {'right':'0%','top':'0%','overflow':'scroll','color':'white'};
+    this.offset_x = null;
+    this.offset_y = null;
+    this.event_target = null;
+    this.add_element_wrapper = $('<div></div>');
+    this.add_button = $('<button>Button</button>');
+    this.add_heading = $('<button>H1</button>');
 }
 VisualEditorUI.prototype = {
     init : function()
@@ -119,40 +126,57 @@ VisualEditorUI.prototype = {
     iframe_events : function()
     {
         var self = this;
-        this.iframe.load(function()
-                         {
-                            self.iframe.contents().find('head').append(self.style_script);
-                            self.iframe.contents().find("body"). click(function(event){
-                                event.stopPropagation();
-                                self.removeStyleCurrentElements(self.current_elements);
-                                self.cleanEditor();
-                                self.current_elements = [];
-                                self.style = {};
-                                self.current_elements[0] = $(this);
-                                self.highlightCurrentElements(self.current_elements);
-                            });
-                            self.iframe.contents().find("body").find('*').click(function(event){
-                                event.stopPropagation();
-                                self.cleanEditor();
-                                self.removeStyleCurrentElements(self.current_elements);
-                                self.current_elements = [];
-                                self.style = {};
-                                self.current_elements[0] = $(this);
-                                self.highlightCurrentElements(self.current_elements);
-                            });
-                             self.iframe.contents().find("body").find('*').dblclick(function(event){
-                                event.stopPropagation();
-                                self.iframe.contents().find("body").find('*').attr('contenteditable','false');
-                                $(this).attr('contenteditable','true'); 
-                             });
-                         });
+        self.iframe.contents().find('head').append(self.style_script);
+        self.iframe.contents().find("body"). click(function(event){
+            event.stopPropagation();
+            self.removeStyleCurrentElements(self.current_elements);
+            self.cleanEditor();
+            self.current_elements = [];
+            self.style = {};
+            self.current_elements[0] = $(this);
+            self.highlightCurrentElements(self.current_elements);
+            self.event_target = $(this);
+            console.log('I am in setting target');
+            self.offset_x = event.pageX;
+            self.offset_y = event.pagey
+        });
+        self.iframe.contents().find("body").on('click','*',function(event){
+            event.stopPropagation();
+            self.cleanEditor();
+            self.removeStyleCurrentElements(self.current_elements);
+            self.current_elements = [];
+            self.style = {};
+            self.current_elements[0] = $(this);
+            self.highlightCurrentElements(self.current_elements);
+            self.event_target = $(this);
+            console.log('I am in setting target');
+            self.offset_x = event.pageX;
+            self.offset_y = event.pagey
+        });
+        self.iframe.contents().find("body").find('*').dblclick(function(event)
+                                                               {
+                                                                 event.stopPropagation();
+                                                      console.log('I am in dbclick>>>>>>>>>>>>>');            self.iframe.contents().find("body").find('*').attr('contenteditable','false');
+                                                                   self.iframe.contents().find("body").attr('contenteditable','false');
+                                                                   $(this).attr('contenteditable','true');
+                                                                   console.log('The va.kue is '+$(this).attr('contenteditable'));
+                                                               });
+
+        self.iframe.contents().find("body").dblclick(function(event)
+                                                               {
+                                                                 event.stopPropagation();
+                                                                console.log('I am in dbclick>>>>>>>>>>>>>');    self.iframe.contents().find("body").find('*').attr('contenteditable','false');
+                                                                   $(this).attr('contenteditable','true');
+                                                               });
+
+
     },
     highlightCurrentElements : function(current_elements)
     {
         this.iframe.contents().find("body").find('*').removeClass('highlight');
         for(var i=0;i<current_elements.length;i++)
         {
-            current_elements[i].toggleClass('highlight');
+            current_elements[i].css('-webkit-box-shadow','0 0 20px blue;');
         }
     },
     cleanEditor : function()
@@ -217,6 +241,7 @@ VisualEditorUI.prototype = {
         //this.create_views();
         this.class_input_option();
         this.important_option();
+        this.add_element_option();
         //this.animation_option();
         this.create_padding_option();
         this.create_margin_option();
@@ -428,7 +453,6 @@ VisualEditorUI.prototype = {
         this.font_size.keyup(function()
                              {
                                     self.style['fontSize'] = $(this).val();
-                                    console.log("The font size is "+$(this).val());
                                     for(var i = 0;i<self.current_elements.length;i++)
                                     {
                                            self.current_elements[i].css(self.style);
@@ -465,7 +489,6 @@ VisualEditorUI.prototype = {
         this.position_select.change(function()
                         {
                             self.style['position'] = $(this).val();
-                            console.log('The position is:'+$(this).val());
                             for(var i = 0;i<self.current_elements.length;i++)
                             {
                                    self.current_elements[i].css(self.style);
@@ -481,7 +504,6 @@ VisualEditorUI.prototype = {
         this.zIndex_input.keyup(function()
                         {
                             self.style['z-Index'] = $(this).val();
-                            console.log('The zindex applied and used is: ' + $(this).val());
                             for(var i = 0;i<self.current_elements.length;i++)
                             {
                                    self.current_elements[i].css(self.style);
@@ -521,6 +543,46 @@ VisualEditorUI.prototype = {
                 });
         this.editor.append(this.line_height_wrapper);
         
+    },
+    add_element_option : function(){
+        this.add_element_wrapper.append('<label>Add Element</label>');
+        this.add_element_wrapper.append(this.add_button);
+        this.add_element_wrapper.append(this.add_heading);
+        var self = this;
+        this.add_button.click($.proxy(function()
+                {
+                    var temp = $('<button>Button</button>');
+                    console.log('the value of the current target is ',self.event_target);
+                    this.event_target.append(temp);
+                    temp.offset({ top: this.offset_y, left: this.offset_x });
+                    temp.dblclick(function(event)
+                                                               {
+                                                                 event.stopPropagation();
+                                                      console.log('I am in dbclick>>>>>>>>>>>>>');            self.iframe.contents().find("body").find('*').attr('contenteditable','false');
+                                                                   self.iframe.contents().find("body").attr('contenteditable','false');
+                                                                   $(this).attr('contenteditable','true');
+                                                                   console.log('The va.kue is '+$(this).attr('contenteditable'));
+                                                               });
+
+                },this));
+        this.add_heading.click($.proxy(function()
+                {
+                    var temp = $('<h1>Heading</h1>');
+                    console.log('the value of the current target is ',self.event_target);
+                    this.event_target.append(temp);
+                    temp.offset({ top: this.offset_y, left: this.offset_x });
+                    temp.dblclick(function(event)
+                                                               {
+                                                                 event.stopPropagation();
+                                                      console.log('I am in dbclick>>>>>>>>>>>>>');            self.iframe.contents().find("body").find('*').attr('contenteditable','false');
+                                                                   self.iframe.contents().find("body").attr('contenteditable','false');
+                                                                   $(this).attr('contenteditable','true');
+                                                                   console.log('The va.kue is '+$(this).attr('contenteditable'));
+                                                               });
+
+                },this));
+        this.editor.append(this.add_element_wrapper);
+
     },
     height_width_option : function(){
         this.height_width_wrapper.append('<label>Height</label>');
@@ -596,7 +658,6 @@ VisualEditorUI.prototype = {
         this.cursor_select.change(function()
                                 {
                                     self.style['cursor'] = $(this).val();
-                                    console.log('The cursor is:'+$(this).val());
                                     for(var i = 0;i<self.current_elements.length;i++)
                                     {
                                            self.current_elements[i].css(self.style);

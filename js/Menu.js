@@ -1,11 +1,15 @@
-var Menu = function(menu_wrapper)
+var Menu = function(menu_wrapper,holder)
 {
+    this.holder = holder;
+    this.iframe_wrapper = null;
+    this.code_editor_wrapper = null;
     this.file_panel_wrapper = null;;
     this.editor = null;
     this.menu_wrapper = menu_wrapper;
     this.codemirror = null;
     this.menu = $('<ul></ul>');
     this.menu_wrapper.append(this.menu);
+    this.layout_option = $('<li><a>Layout</a></li>');
     this.theme_option = $('<li><a>Themes</a></li>');
     this.theme_dropdown = $('<ul></ul>');
     this.themes = ['neat','night','solarized dark']
@@ -27,6 +31,18 @@ Menu.prototype = {
         this.menu.menu({
         position: {at: "left bottom"}
         });
+    },
+    layout : function(code_editor_wrapper,iframe_wrapper)
+    {
+        this.code_editor_wrapper = code_editor_wrapper;
+        this.iframe_wrapper = iframe_wrapper;
+        this.layout_option.click($.proxy(function()
+                                 {
+                                    var css_attribute = {'width':'40%','height':'80%','display':'inline-block'};
+                                     this.iframe_wrapper.css(css_attribute);
+                                     this.code_editor_wrapper.css(css_attribute);
+                                 },this));
+        this.menu.append(this.layout_option);
     },
     addFilePanelWrapper : function(file_panel_wrapper)
     {
