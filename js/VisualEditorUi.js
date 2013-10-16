@@ -1,5 +1,6 @@
 var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
 {
+    this.current_elements_wrappers = [];
     this.temp_styles_script = $('#temp_styles_script');
     this.animation_wrapper = $('<div></div>');
     this.animation_timer = $('<div></div>');
@@ -98,7 +99,7 @@ var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
     this.mobile_view = $('<button>mobile</button>');
     this.desktop_view = $('<button>desktop</button>');
     this.editor_attributes = {'width':'20%','height':'100%'};
-    this.editor_styles = {'right':'0%','top':'0%','overflow':'scroll','color':'white'};
+    this.editor_styles = {'right':'0%','top':'0%','overflow':'scroll'};
     this.offset_x = null;
     this.offset_y = null;
     this.event_target = null;
@@ -109,9 +110,6 @@ var VisualEditorUI = function(iframe,iframe_wrapper,media_size_options)
 VisualEditorUI.prototype = {
     init : function()
     {
-        this.editor.addClass('visual_editor');
-        this.editor.attr(this.editor_attributes);
-        this.editor.css(this.editor_styles);
         $('body').append(this.editor);
         this.iframe_events();
         this.create_toolbar();
@@ -121,6 +119,10 @@ VisualEditorUI.prototype = {
                 handles: "e, w" 
             });
         this.editor.resizable();
+        this.editor.find('[type=text]').addClass('ui mini input');
+        this.editor.find( "[type=checkbox]" ).addClass('ui radio checkbox');
+        this.editor.find('button').addClass('mini ui green button');
+        this.editor.addClass('ui vertical demo sidebar menu');
         return this.editor;
     },
     iframe_events : function()
@@ -138,7 +140,7 @@ VisualEditorUI.prototype = {
             self.event_target = $(this);
             console.log('I am in setting target');
             self.offset_x = event.pageX;
-            self.offset_y = event.pagey
+            self.offset_y = event.pagey;
         });
         self.iframe.contents().find("body").on('click','*',function(event){
             event.stopPropagation();
@@ -153,7 +155,7 @@ VisualEditorUI.prototype = {
             self.offset_x = event.pageX;
             self.offset_y = event.pagey
         });
-        self.iframe.contents().find("body").find('*').dblclick(function(event)
+        self.iframe.contents().find("body").find('*').on('dblclick','*',function(event)
                                                                {
                                                                  event.stopPropagation();
                                                       console.log('I am in dbclick>>>>>>>>>>>>>');            self.iframe.contents().find("body").find('*').attr('contenteditable','false');
@@ -162,7 +164,7 @@ VisualEditorUI.prototype = {
                                                                    console.log('The va.kue is '+$(this).attr('contenteditable'));
                                                                });
 
-        self.iframe.contents().find("body").dblclick(function(event)
+        self.iframe.contents().find("body").on('dblclick','*',function(event)
                                                                {
                                                                  event.stopPropagation();
                                                                 console.log('I am in dbclick>>>>>>>>>>>>>');    self.iframe.contents().find("body").find('*').attr('contenteditable','false');
@@ -176,7 +178,7 @@ VisualEditorUI.prototype = {
         this.iframe.contents().find("body").find('*').removeClass('highlight');
         for(var i=0;i<current_elements.length;i++)
         {
-            current_elements[i].css('-webkit-box-shadow','0 0 20px blue;');
+//           current_elements[i].fadeOut(200).fadeIn(200);
         }
     },
     cleanEditor : function()
@@ -262,6 +264,7 @@ VisualEditorUI.prototype = {
     important_option : function()
     {
         this.important_style_wrapper.append(this.important_style_check);
+        this.important_style_wrapper.addClass('item');
         this.important_style_wrapper.append('<label>Important</label>');
         this.editor.append(this.important_style_wrapper)
     },
@@ -305,6 +308,7 @@ VisualEditorUI.prototype = {
         this.class_wrapper.append('<label>Selector Name</label>');  
         this.class_wrapper.append(this.selector_input);
         this.class_wrapper.append(this.apply_style);
+        this.class_wrapper.addClass('item');
         this.editor.append(this.class_wrapper);
     },
     border_option : function()
@@ -351,6 +355,7 @@ VisualEditorUI.prototype = {
                                       }
                                   });
         this.border_wrapper.append(this.border_type);
+        this.border_wrapper.addClass('item');
         this.editor.append(this.border_wrapper);
     },
     border_radius_option : function()
@@ -377,6 +382,7 @@ VisualEditorUI.prototype = {
                                       }
                                       
                                   });
+        this.border_radius_wrapper.addClass('item');
         this.border_radius_wrapper.append(this.border_radius);
         this.editor.append(this.border_radius_wrapper);
     },
@@ -434,6 +440,7 @@ VisualEditorUI.prototype = {
                                       }
                                        
                                    });
+        this.background_color_wrapper.addClass('item');
         this.background_color_wrapper.append($('<label>Background colour</label>'))
         this.background_color_wrapper.append(this.background_color);
         this.editor.append(this.background_color_wrapper);
@@ -475,6 +482,7 @@ VisualEditorUI.prototype = {
                                     }
                                     
                                 });
+        this.font_wrapper.addClass('item');
         this.editor.append(this.font_wrapper);
         
     },
@@ -495,6 +503,7 @@ VisualEditorUI.prototype = {
                             }
                             
                         });
+        this.position_wrapper.addClass('item');
         this.editor.append(this.position_wrapper);
     },    
     zIndex_option : function(){
@@ -510,6 +519,7 @@ VisualEditorUI.prototype = {
                             }
                             
                         });
+        this.zIndex_wrapper.addClass('item');
         this.editor.append(this.zIndex_wrapper);
         
     },
@@ -526,6 +536,7 @@ VisualEditorUI.prototype = {
                             }
                             
                         });
+        this.opacity_wrapper.addClass('item');
         this.editor.append(this.opacity_wrapper);
     },
     line_height_option : function(){
@@ -541,6 +552,7 @@ VisualEditorUI.prototype = {
                     }
                     
                 });
+        this.line_height_wrapper.addClass('item');
         this.editor.append(this.line_height_wrapper);
         
     },
@@ -581,6 +593,7 @@ VisualEditorUI.prototype = {
                                                                });
 
                 },this));
+        this.add_element_wrapper.addClass('item');
         this.editor.append(this.add_element_wrapper);
 
     },
@@ -606,6 +619,7 @@ VisualEditorUI.prototype = {
                                    self.current_elements[i].css(self.style);
                             }
                      });
+        this.height_width_wrapper.addClass('item');
         this.editor.append(this.height_width_wrapper);
         
     },
@@ -624,6 +638,7 @@ VisualEditorUI.prototype = {
                                    self.current_elements[i].css(self.style);
                             }
                         });
+        this.display_wrapper.addClass('item');
         this.editor.append(this.display_wrapper);
         
     },
@@ -643,6 +658,7 @@ VisualEditorUI.prototype = {
                                            self.current_elements[i].css(self.style);
                                     }
                                 });
+        this.overflow_wrapper.addClass('item');
         this.editor.append(this.overflow_wrapper);
     },
     cursor_option : function(){
@@ -663,6 +679,7 @@ VisualEditorUI.prototype = {
                                            self.current_elements[i].css(self.style);
                                     }
                                 });
+        this.cursor_wrapper.addClass('item');
         this.editor.append(this.cursor_wrapper);  
     },
     create_views : function()
@@ -733,6 +750,7 @@ VisualEditorUI.prototype = {
         bottom_element.append(this.padding_bottom);
         bottom.append(bottom_element);
         this.wrapper_padding.append(bottom);
+        this.wrapper_padding.addClass('item');
         this.editor.append(this.wrapper_padding);
     },
     create_margin_option : function()
@@ -792,6 +810,7 @@ VisualEditorUI.prototype = {
         bottom_element.append(this.margin_bottom);
         bottom.append(bottom_element);
         this.wrapper_margin.append(bottom);
+        this.wrapper_margin.addClass('item');
         this.editor.append(this.wrapper_margin);
     },
      create_common_elements : function(option)   

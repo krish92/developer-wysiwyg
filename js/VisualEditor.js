@@ -1,12 +1,13 @@
 var VisualEditor = function () {
+    this.preview_editor_wrapper = $('<div></div>');
+    this.preview_iframe = $('<iframe></iframe>');
     this.editor_wrapper = $('<div></div>');
-    this.editor_wrapper_atributes = {'width':'100%','height':'100%'};
-    this.editor_wrapper.css(this.editor_wrapper_atributes);
     this.file_panel = null;
     this.file_panel_wrapper = null;
     this.menu_wrapper = $('<div></div>');
     this.menu = null;
     this.iframe = $('<iframe></iframe>');
+    this.iframe.attr('id','original_iframe');
     this.iframe_attributes = {
         'width': '100%',
         'height': '100%'
@@ -18,34 +19,39 @@ var VisualEditor = function () {
     };
     this.iframe_wrapper = $('<div></div>');
     this.overall_iframe_wrapper = $('<div></div>');
-    this.overall_iframe_wrapper_attributes = {
-        'width': '100%',
-        'height': '50%',
-        'border-bottom': '1px solid black',
-        'display': 'inline-block'
-    };
-    this.overall_iframe_wrapper.css(this.overall_iframe_wrapper_attributes);
     this.editor = null;
-    this.iframe_wrapper.css(this.iframe_wrapper_attributes);
-    this.add_media_size = $('<span style="background-color:#2ba6cb; color:white;">+</span>');
+    this.add_media_size = $('<span>+</span>');
+    this.add_media_size.addClass('ui button mini green');
     this.media_size = $('<div></div>');
     this.media_size_attributes = {
-        'height': '5%',
-        'width': '100%',
-        'background-color': 'green'
+        'height': '10px',
+        'background-color': '#5BBD72'
     };
     this.media_size_options = [];
     this.code_editor = null;
     this.code_editor_wrapper = null;
     this.codemirror = null;
     this.media_size.css(this.media_size_attributes);
+    this.media_size.addClass('row');
 }
 VisualEditor.prototype = {
     init: function () {
         $('body').html('');
         $('body').append(this.editor_wrapper);
+        this.editor_wrapper.addClass("ui grid");
         this.create_menu();
+        this.create_preview();
         this.create_wrappers();
+    },
+    create_preview : function()
+    {
+        this.preview_editor_wrapper.addClass('sixteen column wide');
+        this.preview_editor_wrapper.css('height','100%');
+        this.preview_editor_wrapper.append(this.preview_iframe);
+        this.preview_iframe.css('width','100%');
+        this.preview_iframe.css('height','100%');
+        this.editor_wrapper.append(this.preview_editor_wrapper);
+        this.preview_editor_wrapper.hide();
     },
     create_menu: function () {
         this.editor_wrapper.append(this.menu_wrapper);
@@ -164,20 +170,18 @@ VisualEditor.prototype = {
         iFrameDoc.close();
         this.ui = new VisualEditorUI(this.iframe, this.iframe_wrapper, this.media_size_options);
         this.editor = this.ui.init();
-        this.editor.css({
-            'position': 'fixed',
-            'left': '80%',
-            'background-color': '#444',
-            'z-index': '100'
-        });
-        this.editor.draggable();
+//        this.editor.draggable();
         this.code_editor = new CodeEditor(this.iframe, this.iframe_wrapper, this.editor, this.menu,my_iframe,this.editor_wrapper);
         this.file_panel = new FilePanel(this.editor, this.iframe);
         this.file_panel_wrapper = this.file_panel.init();
         this.menu.addFilePanelWrapper(this.file_panel_wrapper);
         this.code_editor.init();
         this.code_editor_wrapper = this.code_editor.getCodeEditorWrapper();
-        this.menu.layout(this.code_editor_wrapper,this.overall_iframe_wrapper);
+        this.code_editor_wrapper.addClass("sixteen wide column");
+        this.overall_iframe_wrapper.addClass("sixteen wide column");
+        this.menu.iframeWrapper(this.overall_iframe_wrapper);
+        this.menu.previewWrapper(this.preview_editor_wrapper);
+        this.menu.layout(this.code_editor_wrapper);
         this.codemirror = this.code_editor.getCodeEditor();
         console.log('the codeeditor is ',this.codemirror);
     }
